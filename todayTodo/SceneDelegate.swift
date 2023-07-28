@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  todayTodo
+//  TodoNoty
 //
-//  Created by 82205 on 2023/07/28.
+//  Created by 임병철 on 2023/05/25.
 //
 
 import UIKit

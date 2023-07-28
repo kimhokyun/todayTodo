@@ -1,11 +1,12 @@
 //
 //  AppDelegate.swift
-//  todayTodo
+//  TodoNoty
 //
-//  Created by 82205 on 2023/07/28.
+//  Created by 임병철 on 2023/05/25.
 //
 
 import UIKit
+import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +15,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let notiAuthOptions = UNAuthorizationOptions(arrayLiteral: [.alert, .badge, .sound])
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: notiAuthOptions) { (success, error) in
+            if let error = error {
+                print(#function, error)
+            }
+        }
         return true
     }
 
@@ -32,5 +41,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+    
 }
 
+extension AppDelegate:UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        NotificationCenter.default.post(name: NSNotification.Name("Refresh"), object: nil)
+        
+        completionHandler([.sound, .banner]);
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        completionHandler();
+    }
+}
